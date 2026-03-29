@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>智能智车实验室 | 轨道检测创新前沿</title>
+    <!-- 引入Google Fonts提升现代感 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (免费图标库) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f9ff;
+            color: #1e2a3e;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e2e8f0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2c5f8a;
+            border-radius: 10px;
+        }
+
+        /* 容器通用 */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* 头部导航 */
+        .navbar {
+            background: #ffffffdd;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #eef2f8;
+        }
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 16px 32px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo i {
+            font-size: 32px;
+            color: #0b4f6c;
+        }
+        .logo h1 {
+            font-size: 1.65rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            background: linear-gradient(135deg, #0b4f6c, #1b8c9e);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .logo span {
+            font-size: 0.85rem;
+            font-weight: 500;
+            background: #eef2ff;
+            padding: 4px 10px;
+            border-radius: 40px;
+            color: #0b4f6c;
+            margin-left: 8px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 500;
+            color: #1e2a3e;
+            transition: 0.2s;
+            font-size: 1rem;
+        }
+        .nav-links a:hover {
+            color: #1b8c9e;
+        }
+        /* 移动端适配简单 */
+        @media (max-width: 760px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .nav-links {
+                gap: 24px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .container {
+                padding: 0 20px;
+            }
+        }
+
+        /* Hero 区域 */
+        .hero {
+            background: linear-gradient(105deg, #eef6fc 0%, #ffffff 100%);
+            padding: 70px 0 60px;
+            border-bottom: 1px solid #e2edf2;
+        }
+        .hero-grid {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+        }
+        .hero-text {
+            flex: 1;
+        }
+        .hero-text .badge {
+            background: #d9eff5;
+            color: #0f5b75;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 24px;
+        }
+        .hero-text h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: #0a2e3f;
+        }
+        .hero-text p {
+            font-size: 1.2rem;
+            color: #2c4b5e;
+            max-width: 550px;
+            margin-bottom: 32px;
+        }
+        .hero-btn {
+            background: #0f5b75;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 10px rgba(15,91,117,0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .hero-btn:hover {
+            background: #1b8c9e;
+            transform: translateY(-2px);
+        }
+        .hero-image {
+            flex: 1;
+            text-align: center;
+        }
+        .hero-image i {
+            font-size: 220px;
+            color: #2f8dab;
+            opacity: 0.8;
+            filter: drop-shadow(0 12px 18px rgba(0,0,0,0.08));
+        }
+        @media (max-width: 860px) {
+            .hero-text h2 { font-size: 2.2rem; }
+            .hero-image i { font-size: 150px; }
+        }
+
+        /* 通用区块样式 */
+        section {
+            padding: 70px 0;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #0a2e3f;
+        }
+        .section-sub {
+            text-align: center;
+            color: #4b6a7c;
+            max-width: 680px;
+            margin: 0 auto 48px auto;
+            font-size: 1.1rem;
+        }
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+        }
+        .card {
+            background: white;
+            border-radius: 28px;
+            padding: 32px 24px;
+            box-shadow: 0 12px 28px -8px rgba(0, 32, 64, 0.08);
+            transition: all 0.25s ease;
+            border: 1px solid #e9f0f5;
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 22px 36px -12px rgba(15, 91, 117, 0.15);
+            border-color: #cde3ec;
+        }
+        .card-icon {
+            font-size: 2.6rem;
+            color: #11748f;
+            margin-bottom: 20px;
+        }
+        .card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+        .card p {
+            color: #2f4b5c;
+            line-height: 1.5;
+        }
+
+        /* 痛点特殊样式 (列表展示) */
+        .pain-points {
+            background: #f0f6fa;
+        }
+        .pain-list {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .pain-item {
+            background: white;
+            border-radius: 24px;
+            padding: 20px 28px;
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            border-left: 6px solid #dc6a4a;
+            transition: 0.2s;
+        }
+        .pain-icon {
+            font-size: 2rem;
+            color: #dc6a4a;
+        }
+        .pain-content h4 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .pain-content p {
+            color: #2e5266;
+        }
+
+        /* 前景与背景布局混合 */
+        .two-col {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 48px;
+            align-items: center;
+        }
+        .col-text {
+            flex: 1.2;
+        }
+        .col-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #115e7a;
+        }
+        .col-text p {
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            color: #2c5368;
+        }
+        .col-stats {
+            flex: 1;
+            background: linear-gradient(145deg, #e2f0f5, #ffffff);
+            border-radius: 32px;
+            padding: 32px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: #0f5b75;
+        }
+        hr {
+            margin: 20px 0;
+            border: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #bdd9e6, transparent);
+        }
+
+        /* 实验室介绍区域 */
+        .lab-spotlight {
+            background: white;
+        }
+        .feature-icon {
+            background: #eef3fc;
+            border-radius: 60px;
+            padding: 12px;
+            display: inline-flex;
+            margin-bottom: 20px;
+        }
+        .quote {
+            font-style: italic;
+            background: #f8fbfe;
+            padding: 28px 32px;
+            border-radius: 32px;
+            border-left: 5px solid #1b8c9e;
+            margin-top: 30px;
+        }
+
+        /* footer */
+        footer {
+            background: #0c2c38;
+            color: #cddfe8;
+            padding: 48px 0 24px;
+            font-size: 0.9rem;
+        }
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+            margin-bottom: 32px;
+        }
+        .footer-logo i {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .footer-links {
+            display: flex;
+            gap: 48px;
+        }
+        .footer-links a {
+            color: #cbdde6;
+            text-decoration: none;
+        }
+        .footer-links a:hover {
+            color: white;
+        }
+        .copyright {
+            text-align: center;
+            padding-top: 24px;
+            border-top: 1px solid #1f4d5e;
+        }
+        button, .hero-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="logo">
+            <i class="fas fa-microchip"></i>
+            <h1>智能智车实验室 <span>轨道检测</span></h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">首页</a></li>
+            <li><a href="#background">发展背景</a></li>
+            <li><a href="#prospect">前景趋势</a></li>
+            <li><a href="#painpoints">痛点挑战</a></li>
+            <li><a href="#lab">实验室</a></li>
+        </ul>
+    </div>
+</nav>
+
+<main>
+    <!-- Hero 区域 / 首页锚点 -->
+    <section id="home" class="hero">
+        <div class="container hero-grid">
+            <div class="hero-text">
+                <div class="badge"><i class="fas fa-train"></i> 智慧轨道 · 精准未来</div>
+                <h2>下一代智能轨道<br>检测解决方案</h2>
+                <p>融合AI视觉、激光雷达与高精度传感，让轨道安全检测更高效、更智慧。智能智车实验室，驱动轨道交通数字化革新。</p>
+                <button class="hero-btn" onclick="document.getElementById('background').scrollIntoView({behavior:'smooth'})">探索前沿技术 <i class="fas fa-arrow-right"></i></button>
+            </div>
+            <div class="hero-image">
+                <i class="fas fa-robot"></i>
+                <!-- 抽象智能检测车示意 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 行业背景 -->
+    <section id="background">
+        <div class="container">
+            <div class="section-title">📈 行业发展背景</div>
+            <div class="section-sub">全球轨道交通网络扩张与安全运维需求激增，智能检测迎来黄金时代</div>
+            <div class="two-col">
+                <div class="col-text">
+                    <h3>从人工巡检到AI智检的跨越</h3>
+                    <p>随着高速铁路、城市地铁里程突破新高，传统人工目视巡检效率低、漏检率高、数据孤岛等问题凸显。国家“十四五”规划明确提出推动交通设施数字化转型，智慧铁路成为新基建重点。智能轨道检测车基于多传感器融合、边缘计算与5G回传，实现钢轨伤损、扣件异常、几何参数毫米级实时监测。</p>
+                    <p>全球轨道检测市场规模预计2027年超80亿美元，年复合增长率达12.5%。政策驱动叠加技术成熟，智能检测装备正从“辅助工具”变为“基础设施标配”。</p>
+                    <div class="quote">
+                        <i class="fas fa-chart-line" style="margin-right: 12px; color:#1b8c9e;"></i> 中国铁路营业里程突破15.9万公里，其中高铁超4.5万公里，轨道检测智能化渗透率不足30%，蓝海市场广阔。
+                    </div>
+                </div>
+                <div class="col-stats">
+                    <i class="fas fa-charging-station" style="font-size: 3rem; color:#0f5b75;"></i>
+                    <div class="stat-number">+35%</div>
+                    <p>智能检测装备需求年增长率</p>
+                    <hr>
+                    <div class="stat-number">≥0.2mm</div>
+                    <p>动态检测精度达行业领先水平</p>
+                    <hr>
+                    <div class="stat-number">24/7</div>
+                    <p>全天候无人化巡检作业能力</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 发展前景 -->
+    <section id="prospect" style="background:#fbfefe;">
+        <div class="container">
+            <div class="section-title">🚀 未来前景与战略机遇</div>
+            <div class="section-sub">智能检测、数字孪生、自动驾驶级感知系统重塑轨道维护范式</div>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-brain"></i></div>
+                    <h3>AI故障预测</h3>
+                    <p>基于深度学习构建轨道健康度预测模型，从“状态修”转向“预测性维护”，降低全生命周期成本30%以上，避免突发事故。</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-satellite-dish"></i></div>
+                    <h3>车路云协同</h3>
+                    <p>检测车作为移动感知节点，与云端数字孪生平台实时交互，形成轨道GIS+BIM一张图，支撑智能运维决策中枢。</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-microscope"></i></div>
+                    <h3>超材料传感</h3>
+                    <p>新一代光纤光栅、MEMS传感器阵列大幅提升数据密度，微小裂纹与形变实现微米级识别，检测精度突破物理极限。</p>
+                </div>
+            </div>
+            <div style="margin-top: 48px; text-align: center;">
+                <p style="font-size: 1.1rem; max-width: 800px; margin: 0 auto; background: #e7f0f5; border-radius: 48px; padding: 16px 24px;">
+                <i class="fas fa-chart-simple"></i> 预计2030年，智能轨道检测车渗透率将超过65%，形成百亿级智能运维生态。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 发展痛点 (重点模块) -->
+    <section id="painpoints" class="pain-points">
+        <div class="container">
+            <div class="section-title">⚠️ 当前行业痛点与挑战</div>
+            <div class="section-sub">尽管技术发展迅猛，轨道检测智能化仍面临多重瓶颈，亟待突破</div>
+            <div class="pain-list">
+                <div class="pain-item">
+                    <div class="pain-icon"><i class="fas fa-database"></i></div>
+                    <div class="pain-content">
+                        <h4>多源数据融合困难</h4>
+                        <p>激光雷达、高清相机、惯性导航等异构数据时间同步与空间配准算法复杂，现有处理平台实时性不足，导致检测结果存在偏差及延迟。</p>
+                    </div>
+                </div>
+                <div class="pain-item">
+                    <div class="pain-icon"><i class="fas fa-cloud-rain"></i></div>
+                    <div class="pain-content">
+                        <h4>复杂环境适应性差</h4>
+                        <p>强光、雨雪、隧道黑暗等恶劣条件下，传感器性能衰减，特征提取鲁棒性下降，部分场景检测精度骤降50%以上，难以满足全天候运营需求。</p>
+                    </div>
+                </div>
+                <div class="pain-item">
+                    <div class="pain-icon"><i class="fas fa-microchip"></i></div>
+                    <div class="pain-content">
+                        <h4>边缘算力与功耗限制</h4>
+                        <p>车载边缘计算设备受功耗和体积限制，难以部署大型神经网络模型，轻量化模型精度与推理速度难以两全，制约实时报警能力。</p>
+                    </div>
+                </div>
+                <div class="pain-item">
+                    <div class="pain-icon"><i class="fas fa-charging-station"></i></div>
+                    <div class="pain-content">
+                        <h4>标准体系与数据孤岛</h4>
+                        <p>各厂家检测设备接口、数据格式不统一，缺乏行业通用标准，导致数据无法互通共享，运维单位难以构建统一健康管理平台。</p>
+                    </div>
+                </div>
+                <div class="pain-item">
+                    <div class="pain-icon"><i class="fas fa-coins"></i></div>
+                    <div class="pain-content">
+                        <h4>改造成本高 推广阻力大</h4>
+                        <p>既有线路智能化升级需大量资本投入，中小型铁路企业难以负担全套设备费用，投资回报周期较长导致市场渗透速度受限。</p>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 40px; text-align: center;">
+                <i class="fas fa-lightbulb" style="font-size: 1.8rem; color:#e68a2e;"></i>
+                <p style="max-width: 700px; margin: 12px auto 0; font-weight: 500;">智能智车实验室聚焦以上痛点，致力于高鲁棒感知、轻量化AI及开放架构解决方案研发，为行业提供破局之道。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 实验室介绍：我们是谁 做什么-->
+    <section id="lab" class="lab-spotlight">
+        <div class="container">
+            <div class="section-title">🏭 智能智车实验室 · 轨道检测卓越中心</div>
+            <div class="section-sub">顶尖高校与产业联合创新，打造下一代轨道智能巡检装备</div>
+            <div class="two-col" style="align-items: stretch;">
+                <div class="col-text">
+                    <div class="feature-icon"><i class="fas fa-flask fa-2x"></i></div>
+                    <h3>关于我们</h3>
+                    <p>智能智车实验室依托轨道交通控制与安全国家重点实验室，汇聚车辆工程、计算机视觉、自动化领域博士研究员20余名。团队主导研发的“锐视”系列轨道检测车已在多个城市地铁、国铁路段完成累计10万公里以上测试验证。</p>
+                    <p><strong>核心能力：</strong> 高精度激光轮廓测量、深度学习缺陷识别算法、多传感器融合定位、数字孪生运维平台。我们坚持“软硬一体”研发路线，提供从车载端到云端的全栈智能检测解决方案。</p>
+                    <p><i class="fas fa-trophy" style="color: #e68a2e;"></i> 2024年获得“轨道交通技术创新一等奖”，多项专利已转化应用，助力铁路总公司智慧运维示范线建设。</p>
+                </div>
+                <div class="col-stats" style="background: #eef2f6;">
+                    <i class="fas fa-chalkboard-user" style="font-size: 2.8rem; margin-bottom: 15px;"></i>
+                    <div class="stat-number">12+</div>
+                    <p>在研国家级/省部级科研项目</p>
+                    <hr>
+                    <div class="stat-number">100%</div>
+                    <p>核心算法自主可控</p>
+                    <hr>
+                    <div class="stat-number">0.1mm</div>
+                    <p>轨距/水平测量重复精度</p>
+                    <button class="hero-btn" style="margin-top: 20px; background:#0c4e66;" onclick="alert('感谢关注！欢迎联系智能智车实验室合作邮箱：lab@smartrail.cn')">合作咨询 →</button>
+                </div>
+            </div>
+            <div class="quote" style="margin-top: 40px; text-align: center;">
+                <i class="fas fa-quote-left" style="margin-right: 10px;"></i> 让轨道检测更智能，让出行更安全 —— 我们以技术创新守护每一寸钢轨的健康。
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-train" style="font-size: 28px;"></i>
+                <p style="margin-top: 8px;">智能智车实验室<br>轨道检测创新先锋</p>
+            </div>
+            <div class="footer-links">
+                <div>
+                    <h4 style="margin-bottom: 12px;">快速链接</h4>
+                    <p><a href="#home">首页</a></p>
+                    <p><a href="#background">发展背景</a></p>
+                    <p><a href="#prospect">前景趋势</a></p>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 12px;">资源</h4>
+                    <p><a href="#">技术白皮书</a></p>
+                    <p><a href="#">产品演示</a></p>
+                    <p><a href="#">加入我们</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2025 智能智车实验室 | 轨道检测技术研究所 | 沪ICP备 25001234号 | 智慧驱动 精准检测
+        </div>
+    </div>
+</footer>
+
+<!-- 平滑滚动和内聚锚点行为优化 -->
+<script>
+    document.querySelectorAll('.nav-links a, .hero-btn').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if(href && href.startsWith('#')) {
+                e.preventDefault();
+                const targetId = href.substring(1);
+                const targetElement = document.getElementById(targetId);
+                if(targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        });
+    });
+    // 简单适应url hash加载
+    if(window.location.hash) {
+        const id = window.location.hash.substring(1);
+        const el = document.getElementById(id);
+        if(el) setTimeout(() => el.scrollIntoView({behavior: 'smooth'}), 100);
+    }
+</script>
+</body>
+</html>
