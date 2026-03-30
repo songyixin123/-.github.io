@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>技术方案｜轨道智能探伤小车</title>
+    <meta name="description" content="轨道智能探伤小车技术方案：传感器、算法、定位、边云协同、可靠性与安全。" />
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+  </head>
+  <body data-page="tech">
+    <header class="topbar">
+      <div class="container">
+        <nav class="nav">
+          <a class="brand" href="./index.html" aria-label="Home">
+            <span class="dot" aria-hidden="true"></span>
+            <span>
+              轨道智能探伤小车
+              <small>Tech · How it works</small>
+            </span>
+          </a>
+          <div class="navlinks" role="navigation" aria-label="Primary">
+            <a class="pill" data-nav="home" href="./index.html">首页</a>
+            <a class="pill" data-nav="product" href="./product.html">产品</a>
+            <a class="pill" data-nav="tech" href="./tech.html">技术</a>
+            <a class="pill" data-nav="business" href="./business.html">商业</a>
+            <a class="pill" data-nav="team" href="./team.html">团队</a>
+            <a class="cta" href="./index.html#contact">合作/联系</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container">
+          <div class="heroGrid">
+            <div>
+              <div class="kicker">
+                技术页（可用于答辩 Q&A）
+                <code>鲁棒性 · 可解释 · 可验收</code>
+              </div>
+              <h1>从“检测到定位”，从“模型到工程”</h1>
+              <p>
+                我们把探伤任务拆成可工程化的技术链路：数据质量控制、缺陷识别、定位融合、分级策略、报告输出与数据闭环。
+                你们可以按本页结构回答评委提问。
+              </p>
+              <div class="heroActions">
+                <a class="cta" href="#arch">系统架构</a>
+                <a class="btn" href="#algo">算法与定位</a>
+                <a class="btn" href="#reliability">可靠性</a>
+              </div>
+            </div>
+            <aside class="heroCard">
+              <div class="media">
+                <img src="./assets/img/hero-railbot.svg" alt="技术示意图（占位）" />
+              </div>
+              <div class="meta">
+                <div class="metric">
+                  <b>多源融合</b>
+                  <span>提升稳定性与可解释性</span>
+                </div>
+                <div class="metric">
+                  <b>边缘推理</b>
+                  <span>现场即可告警与报告</span>
+                </div>
+                <div class="metric">
+                  <b>数据闭环</b>
+                  <span>复核反馈驱动迭代</span>
+                </div>
+                <div class="metric">
+                  <b>工程可落地</b>
+                  <span>对工况做设计而非“赌运气”</span>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="arch">
+        <div class="container">
+          <h2>系统架构（建议配一张图，你们也可以用这段文字讲清楚）</h2>
+          <p class="lead">
+            采集层（传感器/里程）→ 处理层（边缘预处理/推理）→ 融合层（定位与分级）→ 应用层（报告/台账/回放）→ 闭环（复核与迭代）。
+          </p>
+          <div class="grid3">
+            <div class="card">
+              <h3>采集层：多源 + 质量监控</h3>
+              <p>对光照、振动、脏污等进行在线评估，低质量数据自动标记，减少误报源头。</p>
+              <div class="badgeRow">
+                <span class="badge">DQ</span>
+                <span class="badge">在线质控</span>
+              </div>
+            </div>
+            <div class="card">
+              <h3>处理层：边缘智能</h3>
+              <p>在小车侧完成关键推理与筛查，结果即时可见；必要时再上传云端复核/训练。</p>
+              <div class="badgeRow">
+                <span class="badge">Edge AI</span>
+                <span class="badge">低时延</span>
+              </div>
+            </div>
+            <div class="card">
+              <h3>应用层：报告与台账</h3>
+              <p>输出可验收结果：缺陷证据、位置、等级、建议；并沉淀历史对比与趋势。</p>
+              <div class="badgeRow">
+                <span class="badge">可交付</span>
+                <span class="badge">可追溯</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="algo">
+        <div class="container">
+          <div class="split">
+            <div class="card">
+              <h2 style="margin-top:0">算法与定位（把“准”讲清楚）</h2>
+              <ul class="list">
+                <li><b>缺陷识别</b>：用模型/规则组合检测缺陷候选，输出置信度与证据（图像框/波形片段）。</li>
+                <li><b>定位融合</b>：用里程计/编码器 + 传感器时间戳对齐，把告警映射到“里程/坐标”。</li>
+                <li><b>分级策略</b>：根据尺寸、形态、持续帧数、能量/纹理等特征进行风险分级，减少“全靠阈值”。</li>
+                <li><b>可解释性</b>：为每条告警提供证据链，方便复检与复核。</li>
+              </ul>
+              <div class="badgeRow">
+                <span class="badge">Detection</span>
+                <span class="badge">Localization</span>
+                <span class="badge">Grading</span>
+                <span class="badge">Evidence</span>
+              </div>
+            </div>
+            <div class="callout">
+              <h3>你们可以这样回答“为什么比人工更可靠？”</h3>
+              <p>
+                人工受疲劳与经验差异影响大；我们用数据质控减少脏数据，
+                用多源证据降低单一传感器误报，用分级与复核闭环降低漏报风险，
+                并把过程与结果结构化留痕，便于验收与持续改进。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="reliability">
+        <div class="container">
+          <h2>工程可靠性（评委爱问：工况这么复杂怎么办？）</h2>
+          <p class="lead">把风险点先讲出来，再讲你们怎么设计与验证。</p>
+          <div class="grid3">
+            <div class="card">
+              <h3>振动/冲击</h3>
+              <p>结构减振 + 采集同步 + 滤波/稳像策略；用工况数据做针对性验证。</p>
+            </div>
+            <div class="card">
+              <h3>光照/反光/脏污</h3>
+              <p>自适应曝光/偏振/补光（视你们实际方案）；并用数据质控与域增强提升鲁棒。</p>
+            </div>
+            <div class="card">
+              <h3>误报治理</h3>
+              <p>多证据交叉验证 + 分级阈值策略 + 复核闭环，让告警更“可信”。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="security">
+        <div class="container">
+          <h2>数据与安全（可选，比赛加分项）</h2>
+          <p class="lead">如果你们有涉密/内网要求，可以用这些点兜底。</p>
+          <div class="grid2">
+            <div class="card">
+              <h3>数据分级存储</h3>
+              <p>原始数据本地留存，云端只上传必要摘要/特征；满足不同单位的数据管理要求。</p>
+            </div>
+            <div class="card">
+              <h3>可审计与版本管理</h3>
+              <p>模型版本、阈值策略、告警结果可追溯，便于验收、复盘与持续改进。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div>上一页 <a href="./product.html">产品介绍</a> · 下一页 <a href="./business.html">商业模式</a></div>
+          <div>提示：把“你们实际用的传感器/算法名”替换进去更可信。</div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="./assets/js/main.js"></script>
+  </body>
+</html>
+
